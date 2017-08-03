@@ -1,0 +1,223 @@
+<html>
+<head>
+<canvas id="mycanvas" height="580" width="1080" style="border:3px solid orange"></canvas>  
+<style>
+    canvas{
+        width:100%;
+        background-color: black;
+    }
+    
+</style>    
+    
+    
+</head>
+    <body>
+       <script>
+        window.addEventListener('load',function(){       
+        var canvas=document.getElementById("mycanvas");
+        var c=canvas.getContext("2d");
+        
+    //Enemy blocks data
+           
+           
+                  var enemy=[
+               {
+                  x:108,y:100,w:75,h:75
+                  
+                                   
+               },
+                      
+                      
+               {
+                  x:378,y:100,w:75,h:75
+                  
+               },
+                      
+               
+               {
+                  x:548,y:100,w:75,h:75
+                  
+               },
+                      
+                      
+               {
+                   x:818,y:100,w:75,h:75
+                   
+                   
+               }
+               
+               
+           ];
+            
+            
+            // Player information
+           
+           var player={
+               x:0,
+               y:250,
+               w:35,
+               h:35,
+               ismoving:false,
+               speed:10,
+               
+               
+               
+           };
+            
+ //A function to change the value of ismoving variable of player when executed           
+            
+            var ismooving=function(){
+                player.ismoving=true;
+            }
+            
+            
+            var stopmoving=function(){
+                
+                player.ismoving=false;
+            }
+            
+            
+            
+            
+           
+           
+           
+ //Speed  of  differnt blocks(enemies)
+    var speed=[16,18,15,19];
+            
+            
+// Mouse event,to make the block moving when the mouse button is pressed            
+    
+    canvas.addEventListener("mousedown",ismooving);
+       
+    canvas.addEventListener("mouseup",stopmoving);
+            
+               
+               
+               
+ //An update function to update properties like speed and direction of movement          
+           
+        function update(){
+            
+              if(player.ismoving)
+             {
+                player.x=player.x+player.speed;
+             }
+           
+            
+                  for(i=0;i<enemy.length;i++)
+             {
+                
+                    if(enemy[i].y>750)
+                    {        
+                       speed[i]=-speed[i];
+                  
+                    } 
+                
+                    else if(enemy[i].y<10) 
+                    {
+                      speed[i]=-speed[i];
+                    }   
+                
+                    enemy[i].y= enemy[i].y+speed[i];
+             }
+        }
+        
+               
+ // Function to actually draw the blocks of enemies and player           
+            
+        function draw() {
+            
+            n=enemy.length;
+            
+           c.fillStyle="blue";  c.fillRect(player.x,player.y,player.w,player.h);
+            
+            c.fillStyle="red";
+           for(l=0;l<n;l++)
+            {
+                
+                c.fillRect(enemy[l].x,enemy[l].y,enemy[l].w,enemy[l].h);
+                
+              
+            
+            }
+           
+        
+        }
+            
+            
+            
+    function colCheck(shapeA, shapeB)
+{
+     var vX = (shapeA.x + (shapeA.w / 2)) - (shapeB.x + (shapeB.w / 2)),
+        vY = (shapeA.y + (shapeA.h / 2)) - (shapeB.y + (shapeB.h / 2)),
+        // add the half widths and half heights of the objects
+        hWidths = (shapeA.w / 2) + (shapeB.w / 2),
+        hHeights = (shapeA.h / 2) + (shapeB.h / 2);
+    
+      if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights)
+      {
+         
+         alert("collision");
+ 
+      }
+    
+}
+    
+    
+           
+            
+// Function which starts the chain of events            
+           
+        var step=function(){
+        
+         c.clearRect(0,0,1080,580);    
+           update();
+           draw();
+         for(i=0;i<enemy.length;i++)
+        {     
+           colCheck(player,enemy[i]);    
+           
+            
+        }
+           window.requestAnimationFrame(step);
+            
+            
+            
+        }
+         step();
+     
+    
+        
+       
+});
+           
+           
+           
+          
+           
+           
+           
+           
+           
+           
+           
+           
+     
+        
+       
+        
+      
+           
+        
+        
+        </script>
+            
+    
+    
+    </body>
+
+
+
+
+</html>
